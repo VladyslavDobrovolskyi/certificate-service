@@ -26,3 +26,4 @@
 #### Ответ 
 `Content-Type', 'application/pdf`
 `Content-Disposition', 'inline; filename="certificate.pdf"`
+> <img src="images/example.jpeg" alt="Пробег n итераций" width="600" height="400">
