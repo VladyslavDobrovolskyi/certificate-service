@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    @page {
+      size: A4 landscape;
+    }
+
+    body {
+      background-image: url('data:image/svg+xml;base64,<%= background %>');
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+
+    .content {
+      position: relative;
+    }
+
+    .company-name {
+      position: absolute;
+      top: 25px;
+      left: 80px;
+      font-family: 'Verdana';
+      font-size: 40px;
+      color: rgb(49, 48, 50);
+    }
+
+    .person-name {
+      position: absolute;
+      top: 364px;
+      left: 120px;
+      font-family: 'Arial';
+      size: 50px;
+      font-size: 49px;
+      font-weight: 700;
+      color: rgb(86, 80, 80);
+    }
+
+    .date {
+      position: absolute;
+      top: 662px;
+      left: 105px;
+      font-family: 'Verdana';
+      font-size: 19px;
+      color: rgb(74, 69, 69);
+    }
+
+    .signature {
+      position: absolute;
+      top: 640px;
+      left: 450px;
+      background-image: url('data:image/svg+xml;base64,<%= signature %>');
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 150px;
+      height: 150px;
+    }
+
+    .text {
+      position: absolute;
+      top: 450px;
+      left: 100px;
+      font-family: 'Verdana';
+      font-size: 17px;
+      font-weight: 250;
+      color: rgba(103, 101, 101, 0.844);
+      width: 600px;
+      height: 250px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class='content'>
+    <h1 class='company-name'>
+      <%= company%>
+    </h1>
+    <h1 class='person-name'>
+      <%= person %>
+    </h1>
+    <div class='text'>
+      <%= text%>
+    </div>
+    <p class='date'>
+      <%= date%>
+    </p>
+    <div class='signature'></div>
+  </div>
+</body>
+
+</html>
