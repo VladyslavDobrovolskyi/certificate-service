@@ -5,53 +5,59 @@ const { chromium } = require('playwright')
 
 const app = express()
 app.set('view engine', 'ejs')
+app.use(express.json())
 
-app.get('/generate-certificate', async (req, res) => {
+app.post('/generate-certificate', async (req, res) => {
   try {
-    // Getting data from query parameters
-    const name = req.query.name || 'Иванов Иван'
-    const date = req.query.date || '10 августа 2023'
+    const company = req.body.company || 'GDT'
+    const text =
+      req.body.text ||
+      `The company would like to extend its sincerest appreciation for your
+    exceptional contribution and active participation. We highly value
+    your dedication and hard work, which have made a significant impact
+    on our success. Your commitment to excellence and willingness to go
+    above and beyond are truly commendable.`
+    const person = req.body.person || 'Oleksandr Kovalchuk'
+    const date = req.body.date || '15.08.2023'
 
-    // Data to pass to the template
     const data = {
-      name: name,
+      company: company,
+      text: text,
+      person: person,
       date: date,
     }
 
-    // Specify the path to your background image
-    const backgroundPath = 'images/background.png'
+    const backgroundPath = 'images/background.svg'
     const background = await fs.promises.readFile(backgroundPath, {
       encoding: 'base64',
     })
 
-    // Rendering the EJS template to HTML
+    const signaturePath = 'images/signature.svg'
+    const signature = await fs.promises.readFile(signaturePath, {
+      encoding: 'base64',
+    })
+
     const html = await ejs.renderFile('certificate.ejs', {
       background,
+      signature,
       ...data,
     })
 
-    // Launching Playwright
     const browser = await chromium.launch()
     const context = await browser.newContext()
     const page = await context.newPage()
 
-    // Setting the page content
     await page.setContent(html)
 
-    // Generating PDF
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
     })
 
-    // Closing Playwright
     await browser.close()
 
-    // Setting the header to open the PDF in the browser
     res.setHeader('Content-Type', 'application/pdf')
     res.setHeader('Content-Disposition', 'inline; filename="certificate.pdf"')
-
-    // Sending the PDF as a data stream
     res.send(pdfBuffer)
   } catch (err) {
     console.error(err)
@@ -59,7 +65,6 @@ app.get('/generate-certificate', async (req, res) => {
   }
 })
 
-// Starting the server
 app.listen(3000, () => {
-  console.log('Сервер запущен на порту 3000')
+  console.log('3000')
 })
